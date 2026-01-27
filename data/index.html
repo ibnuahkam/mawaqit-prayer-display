@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mawaqit Setup</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a5f2a 0%, #0d3d17 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        .container { max-width: 500px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 30px; font-size: 28px; }
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .card h2 { margin-bottom: 15px; font-size: 18px; color: #90EE90; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background: #45a049; }
+        button:disabled { background: #666; cursor: not-allowed; }
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .status.success { background: #4CAF50; }
+        .status.error { background: #f44336; }
+        .mosque-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .mosque-item {
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .mosque-item:hover { background: rgba(255,255,255,0.2); }
+        .mosque-name { font-weight: bold; }
+        .mosque-city { font-size: 14px; color: #ccc; }
+        .loading { text-align: center; padding: 20px; }
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>☪️ Mawaqit Setup</h1>
+        
+        <!-- WiFi Setup -->
+        <div class="card" id="wifiCard">
+            <h2>1. WLAN Verbindung</h2>
+            <input type="text" id="ssid" placeholder="WLAN Name (SSID)">
+            <input type="password" id="password" placeholder="WLAN Passwort">
+            <button onclick="saveWifi()">WLAN speichern & verbinden</button>
+            <div id="wifiStatus"></div>
+        </div>
+        
+        <!-- Mosque Search -->
+        <div class="card">
+            <h2>2. Moschee suchen</h2>
+            <input type="text" id="searchQuery" placeholder="Stadt oder Moschee Name">
+            <button onclick="searchMosques()">Suchen</button>
+            <div id="searchStatus"></div>
+            <div class="mosque-list" id="mosqueList"></div>
+        </div>
+        
+        <!-- Current Settings -->
+        <div class="card">
+            <h2>Aktuelle Einstellungen</h2>
+            <div id="currentSettings">Laden...</div>
+        </div>
+    </div>
+
+    <script>
+        // Load current settings on page load
+        window.onload = function() {
+            loadSettings();
+        };
+
+        function loadSettings() {
+            fetch('/api/settings')
+                .then(r => r.json())
+                .then(data => {
+                    let html = '<p><strong>Moschee:</strong> ' + (data.mosqueName || 'Nicht konfiguriert') + '</p>';
+                    html += '<p><strong>Adhan:</strong> ' + (data.adhanEnabled ? 'Aktiviert' : 'Deaktiviert') + '</p>';
+                    document.getElementById('currentSettings').innerHTML = html;
+                })
+                .catch(e => {
+                    document.getElementById('currentSettings').innerHTML = 'Fehler beim Laden';
+                });
+        }
+
+        function saveWifi() {
+            const ssid = document.getElementById('ssid').value;
+            const password = document.getElementById('password').value;
+            
+            if (!ssid) {
+                showStatus('wifiStatus', 'Bitte WLAN Name eingeben', 'error');
+                return;
+            }
+            
+            showStatus('wifiStatus', 'Speichere...', '');
+            
+            fetch('/api/wifi', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ssid, password })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus('wifiStatus', 'Gespeichert! Gerät startet neu...', 'success');
+                } else {
+                    showStatus('wifiStatus', 'Fehler: ' + (data.error || 'Unbekannt'), 'error');
+                }
+            })
+            .catch(e => {
+                showStatus('wifiStatus', 'Verbindungsfehler', 'error');
+            });
+        }
+
+        function searchMosques() {
+            const query = document.getElementById('searchQuery').value;
+            if (!query || query.length < 2) {
+                showStatus('searchStatus', 'Bitte mindestens 2 Zeichen eingeben', 'error');
+                return;
+            }
+            
+            document.getElementById('mosqueList').innerHTML = '<div class="loading"><div class="spinner"></div><p>Suche...</p></div>';
+            
+            // Use Mawaqit API directly
+            fetch('https://mawaqit.net/api/2.0/mosque/search?word=' + encodeURIComponent(query))
+                .then(r => r.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        document.getElementById('mosqueList').innerHTML = '<p>Keine Moscheen gefunden</p>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    data.forEach(mosque => {
+                        html += '<div class="mosque-item" onclick="selectMosque(\'' + mosque.uuid + '\', \'' + mosque.name.replace(/'/g, "\\'") + '\')">';
+                        html += '<div class="mosque-name">' + mosque.name + '</div>';
+                        html += '<div class="mosque-city">' + (mosque.city || '') + ', ' + (mosque.countryCode || '') + '</div>';
+                        html += '</div>';
+                    });
+                    document.getElementById('mosqueList').innerHTML = html;
+                })
+                .catch(e => {
+                    document.getElementById('mosqueList').innerHTML = '<p>Fehler bei der Suche</p>';
+                });
+        }
+
+        function selectMosque(id, name) {
+            showStatus('searchStatus', 'Speichere ' + name + '...', '');
+            
+            fetch('/api/mosque', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, name })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus('searchStatus', 'Moschee gespeichert: ' + name, 'success');
+                    loadSettings();
+                } else {
+                    showStatus('searchStatus', 'Fehler beim Speichern', 'error');
+                }
+            })
+            .catch(e => {
+                showStatus('searchStatus', 'Verbindungsfehler', 'error');
+            });
+        }
+
+        function showStatus(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = message;
+            el.className = 'status' + (type ? ' ' + type : '');
+        }
+    </script>
+</body>
+</html>
