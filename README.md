@@ -4,6 +4,8 @@
 
 A standalone Islamic prayer times display based on ESP32-S3 with capacitive touchscreen. The system fetches prayer times from the Mawaqit.net API and can play the Adhan at configured times.
 
+![Display Showcase](screenshots/display_showcase.png)
+
 ## Features
 
 - Display of five daily prayer times plus sunrise
@@ -13,6 +15,20 @@ A standalone Islamic prayer times display based on ESP32-S3 with capacitive touc
 - Four color themes: Green, Blue, Purple, Black (True Dark)
 - Web-based configuration interface
 - Touch control for all functions
+
+## Screenshots
+
+### Display Modes
+
+| List View | Clock View | Countdown |
+|-----------|------------|-----------|
+| ![List](screenshots/display_list_green.png) | ![Clock](screenshots/display_clock_green.png) | ![Countdown](screenshots/display_countdown_green.png) |
+
+### Color Themes
+
+| Green | Blue | Purple | Dark |
+|-------|------|--------|------|
+| ![Green](screenshots/display_list_green.png) | ![Blue](screenshots/display_list_blue.png) | ![Purple](screenshots/display_list_purple.png) | ![Dark](screenshots/display_list_dark.png) |
 
 ## Hardware
 

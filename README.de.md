@@ -4,6 +4,8 @@
 
 Eigenstaendige islamische Gebetszeiten-Anzeige basierend auf ESP32-S3 mit kapazitivem Touchscreen. Das System bezieht Gebetszeiten ueber die Mawaqit.net API und kann den Adhan zu den konfigurierten Zeiten abspielen.
 
+![Display Uebersicht](screenshots/display_showcase.png)
+
 ## Funktionen
 
 - Anzeige der fuenf taeglichen Gebetszeiten plus Sonnenaufgang
@@ -13,6 +15,20 @@ Eigenstaendige islamische Gebetszeiten-Anzeige basierend auf ESP32-S3 mit kapazi
 - Vier Farbthemen: Gruen, Blau, Violett, Schwarz (True Dark)
 - Web-basierte Konfigurationsoberflaeche
 - Touch-Steuerung fuer alle Funktionen
+
+## Screenshots
+
+### Anzeigemodi
+
+| Listenansicht | Uhr-Ansicht | Countdown |
+|---------------|-------------|-----------|
+| ![Liste](screenshots/display_list_green.png) | ![Uhr](screenshots/display_clock_green.png) | ![Countdown](screenshots/display_countdown_green.png) |
+
+### Farbthemen
+
+| Gruen | Blau | Violett | Dunkel |
+|-------|------|---------|--------|
+| ![Gruen](screenshots/display_list_green.png) | ![Blau](screenshots/display_list_blue.png) | ![Violett](screenshots/display_list_purple.png) | ![Dunkel](screenshots/display_list_dark.png) |
 
 ## Hardware
 
